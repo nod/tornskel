@@ -1,0 +1,12 @@
+You need the following software installed to run dash:
+Python 2.6.*
+CouchDB 0.11 or later
+CouchDB should be listening on localhost at port 5984 (the default).
+
+You also need a recent version of these python modules:
+couchdbkit 0.4.8
+restkit 2.0.2 (couchdbkit should install this)
+graphy 1.0.0
+tornado 0.2
+recaptcha-client 1.0.5 (http://pypi.python.org/pypi/recaptcha-client)
+simplejson
