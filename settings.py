@@ -11,8 +11,8 @@ httpd_port = 6488
 torn_settings = {
     "debug":True,
     "login_url": "/auth/login",
-    "static_path": path.join(path.dirname(__file__), "backweb/static"),
-    "template_path": path.join(path.dirname(__file__), "backweb/templates"),
+    "static_path": path.join(path.dirname(__file__), "tornapp/static"),
+    "template_path": path.join(path.dirname(__file__), "tornapp/templates"),
     "cookie_secret": "SOMETHING HERE",
     }
 
