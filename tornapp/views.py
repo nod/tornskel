@@ -5,7 +5,7 @@ import tornado.auth
 
 from couchdbkit import NoResultFound, Document
 
-class HcBaseHandler(RequestHandler):
+class AppBaseHandler(RequestHandler):
     mime_type = {
         'page':'text/html',
         'html':'text/html',
@@ -33,14 +33,14 @@ class HcBaseHandler(RequestHandler):
         return self.write(json.dumps({'status': 'fail', 'reason': reason}))
 
 
-class AuthLogoutHandler(HcBaseHandler):
+class AuthLogoutHandler(AppBaseHandler):
     @tornado.web.authenticated
     def get(self):
         self.set_secure_cookie('authed_user', '0')
         self.redirect("/")
 
 
-class AuthHandler(HcBaseHandler):
+class AuthHandler(AppBaseHandler):
     @tornado.web.asynchronous
     def get(self):
         self.render("auth/login.html")
@@ -52,7 +52,7 @@ class AuthHandler(HcBaseHandler):
             raise tornado.web.HTTPError(500, "auth failed")
 
 
-class SignupHandler(HcBaseHandler):
+class SignupHandler(AppBaseHandler):
     @tornado.web.asynchronous
     def get(self):
         self.render(
@@ -63,7 +63,7 @@ class SignupHandler(HcBaseHandler):
         pass
 
 
-class SignupCompleteHandler(HcBaseHandler):
+class SignupCompleteHandler(AppBaseHandler):
     @tornado.web.asynchronous
     def get(self):
         signup = self.get_secure_cookie("signup_user")
@@ -75,7 +75,7 @@ class SignupCompleteHandler(HcBaseHandler):
             self.redirect("/signup")
 
 
-class ActivateHandler(HcBaseHandler):
+class ActivateHandler(AppBaseHandler):
     @tornado.web.asynchronous
     def get(self, hash):
         if False:
@@ -84,7 +84,7 @@ class ActivateHandler(HcBaseHandler):
             raise tornado.web.HTTPError(500, "unknown hash")
 
 
-class HomeHandler(HcBaseHandler):
+class HomeHandler(AppBaseHandler):
     @tornado.web.authenticated
     def get(self):
         data = {
@@ -95,7 +95,7 @@ class HomeHandler(HcBaseHandler):
             )
 
 
-class IndexHandler(HcBaseHandler):
+class IndexHandler(AppBaseHandler):
     def get(self):
         if self.current_user: self.redirect("/home")
         else: self.render("index.html")
