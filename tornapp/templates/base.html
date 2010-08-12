@@ -1,0 +1,44 @@
+<html>
+<head>
+<title>{% block title %}{% end %}</title>
+
+<link rel="stylesheet" href="/static/css/blueprint/screen.css" type="text/css" media="screen, projection">
+<link rel="stylesheet" href="/static/css/blueprint/print.css" type="text/css" media="print">
+<!--[if lt IE 8]>
+  <link rel="stylesheet" href="/static/css/blueprint/ie.css" type="text/css" media="screen, projection">
+<![endif]-->
+<link rel="stylesheet" href="/static/css/blueprint/plugins/fancy-type/screen.css" type="text/css" media="screen, projection">
+
+<link rel="stylesheet" href="/static/css/global.css" type="text/css" media="screen, projection">
+
+<link href="/static/css/jquery-ui.css" rel="stylesheet" type="text/css"/>
+<link href="/static/css/jquery.flexbox.css" rel="stylesheet" type="text/css"/>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+<script src="/static/js/jquery.timeago.js"></script>
+<script src="/static/js/showdown.js"></script>
+<script src="/static/js/jquery.flexbox.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+
+<script type="text/javascript">{% block script %}{% end %}</script>
+
+<style type="text/css">{% block style %}{% end %}</style>
+
+</head>
+<body>
+<div class="container">
+
+<div class="nav span-24 last">
+{% block nav %}{% end %}
+</div>
+
+<div class="span-24 last main-content">
+{% block content %}{% end %}
+</div>
+
+<div class="span-24 last footer">
+{% block footer %}{% end %}
+</div>
+
+</div>
+</body>
+</html>
