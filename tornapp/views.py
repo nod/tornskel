@@ -33,6 +33,13 @@ class AppBaseHandler(RequestHandler):
         return self.write(json.dumps({'status': 'fail', 'reason': reason}))
 
 
+def just_template(templ):
+    """Generate a transient view dynamically to render straight to template."""
+    class TransientGenericView(AppBaseHandler):
+        def get(self): self.render(templ)
+    return TransientGenericView
+
+
 class AuthLogoutHandler(AppBaseHandler):
     @tornado.web.authenticated
     def get(self):
