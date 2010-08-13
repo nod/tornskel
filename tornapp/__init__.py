@@ -5,4 +5,3 @@ from app import setup_app
 import couchdbkit
 import restkit
 import tornado.web
-import graphy
