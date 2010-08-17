@@ -16,3 +16,4 @@ torn_settings = {
     "cookie_secret": "SOMETHING HERE",
     }
 
+test_httpd_port = 4666

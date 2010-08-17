@@ -9,10 +9,6 @@ from couchdbkit import Document, DocumentSchema, BadValueError, SchemaProperty
 from couchdbkit.schema.properties import *
 from couchdbkit.schema.properties_proxy import SchemaListProperty
 
-# let's pull in our queue management functions
-from os import path
-sys.path.insert(0,path.join(path.dirname(__file__), "../../"))
-import hcmailman.jobs
 
 class RegexStringProperty(StringProperty):
     def __init__(self, pattern, **kwargs):
