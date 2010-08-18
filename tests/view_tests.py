@@ -2,11 +2,12 @@
 import unittest, json, time
 from threading import Thread, Semaphore
 import sys, os
+import urllib, urllib2, cookielib, urlparse
 
 from tornado.httpserver import HTTPServer
+from tornado.web import RequestHandler
 from tornado.ioloop import IOLoop
 
-from restkit import Resource,RequestFailed
 from couchdbkit import Document
 
 sys.path.insert(0,os.path.join(os.path.dirname(__file__), ".."))
@@ -17,24 +18,35 @@ import tornapp  # our application
 class TestViews(unittest.TestCase):
 
     def setUp(self):
-        self.res = Resource('http://localhost:%d'%settings.test_httpd_port)
+        cj = cookielib.CookieJar()
+        self.opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
+        self.baseurl = 'http://localhost:%d'%settings.test_httpd_port
 
     def tearDown(self):
         pass
 
-    def _get_as_json(self, url, **params):
-        return json.loads(self.res.get(url, **params).body_string())
+    def open(self, url, **kwargs):
+        url = urlparse.urljoin(self.baseurl,url)
+        if len(kwargs): #POST
+            return self.opener.open(url,urllib.urlencode(kwargs))
+        else: #GET
+            return self.opener.open(url)
 
-    def _post_to_json(self, url, **params):
-        try:
-            return json.loads(self.res.post(url, **params).body_string())
-        except RequestFailed,e:
-            return json.loads(e._get_message())
+    def open_as_json(self, url, **kwargs):
+        resp = self.open(url, **kwargs)
+        out = resp.read()
+        resp.close()
+        return json.loads(out)
 
     def test_connect(self):
-        resp = self.res.get('/')
-        self.failUnlessEqual(200, resp.status_int)
-        self.failUnless(len(resp.body_string())>0)
+        resp = self.open('/')
+        self.failUnlessEqual(200,resp.getcode())
+        self.failUnless(len(resp.read())>0)
+
+    def test_signup(self):
+        email = 'noreply@collectivelabs.com'
+        json = self.open_as_json('/signup', email=email)
+        self.failUnlessEqual(json['signup'], email)
 
 
 class DebugServerThread(Thread):
@@ -57,6 +69,11 @@ class DebugServerThread(Thread):
 
 
 if __name__ == '__main__':
+    def _fake_render(handler, template_name, **kwargs):
+        handler.write(json.dumps(kwargs))
+        handler.finish()
+    RequestHandler.render = _fake_render
+    
     thread = DebugServerThread(tornapp.setup_app(settings))
     thread.start()
     if settings.db_user:

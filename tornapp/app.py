@@ -14,6 +14,8 @@ def setup_app(settings):
     # intialize our tornado instance
     app = tornado.web.Application([
         (r"/", views.IndexHandler),
+        (r"/signup", views.SignupHandler),
+        (r"/signup/complete", views.SignupCompleteHandler),
         ], **settings.torn_settings)
     app._settings = settings # save this off for later easy access
 

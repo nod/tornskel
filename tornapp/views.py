@@ -68,7 +68,9 @@ class SignupHandler(AppBaseHandler):
             )
 
     def post(self):
-        pass
+        email = self.get_argument('email')
+        self.set_secure_cookie("signup_user", email)
+        self.redirect("/signup/complete")
 
 
 class SignupCompleteHandler(AppBaseHandler):
@@ -81,7 +83,6 @@ class SignupCompleteHandler(AppBaseHandler):
             self.render("signup/complete.html", signup=signup)
         else:
             self.redirect("/signup")
-
 
 class ActivateHandler(AppBaseHandler):
     @tornado.web.asynchronous
