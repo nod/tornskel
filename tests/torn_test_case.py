@@ -52,11 +52,6 @@ class DebugServerThread(Thread):
         self.loaded.release()
         IOLoop.instance().start()
 
-    def stop(self):
-        self.http_server.io_loop.remove_handler(
-                self.http_server._socket.fileno())
-        self.http_server._socket.close()
-
 
 def main():
     def _fake_render(handler, template_name, **kwargs):
@@ -69,10 +64,7 @@ def main():
     if settings.db_user:
         Document.get_db().flush()
     thread.loaded.acquire()
-    try:
-        unittest.main()
-    finally:
-        thread.stop()
+    unittest.main()
 
 if __name__ == '__main__':
     print "This file is not a test, and should not be run!"
