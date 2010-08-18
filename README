@@ -1,3 +1,27 @@
-A skeletal template for a tornado web app.
+      
+     -----------
+      _________/
+      \_______
+        _____/    Tornado Skeleton
+        \___
+          _/
+          \
 
-Edit settings to your whim, change what you will.
+A skeletal template app for a tornado web app.
+
+- LICENSE -
+
+This falls under the same license as TornadoWeb,
+the Apache License, Version 2.0
+Get a copy at http://www.apache.org/licenses/LICENSE-2.0.html
+
+
+- GETTING STARTED -
+
+Edit settings.py to your whim, change what you will, then execute launch.py.
+
+A Tornado instance will be running at the port specified under httpd_port in
+settings.py.
+
+
+
