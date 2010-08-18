@@ -5,7 +5,7 @@ import tornado.web
 import sys
 
 import tornapp  # our application
-import settings
+from settings import torn_settings as settings
 
 def start_instance(settings):
     http_server = tornado.httpserver.HTTPServer(

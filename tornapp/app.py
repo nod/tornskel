@@ -16,19 +16,18 @@ def setup_app(settings):
         (r"/", views.IndexHandler),
         (r"/signup", views.SignupHandler),
         (r"/signup/complete", views.SignupCompleteHandler),
-        ], **settings.torn_settings)
-    app._settings = settings # save this off for later easy access
+        ], **settings)
 
     # couchdb setup
-    if settings.db_user:
+    if settings['db_user']:
         from restkit import BasicAuth
         server = Server(
-            uri=settings.db_uri,
+            uri=settings['db_uri'],
             filters=[
-                BasicAuth(settings.db_user, settings.db_pass)
+                BasicAuth(settings['db_user'], settings['db_pass'])
                 ],
             )
-        db = server.get_or_create_db(settings.db_name)
+        db = server.get_or_create_db(settings['db_name'])
         # now attach our couchdb instance to the tornado app instance
         app.couchdb = db
 

@@ -3,14 +3,14 @@ import unittest, json, time
 import sys, os
 
 sys.path.insert(0,os.path.join(os.path.dirname(__file__), ".."))
-import settings
+from test_settings import torn_settings
 import tornapp  # our application
 import torn_test_case
 
 class TestViews(torn_test_case.TornTestCase):
 
     def setUp(self):
-        torn_test_case.TornTestCase.setUp(self)
+        torn_test_case.TornTestCase.setUp(self, torn_settings['httpd_port'])
 
     def tearDown(self):
         pass
@@ -27,4 +27,5 @@ class TestViews(torn_test_case.TornTestCase):
 
 
 if __name__ == '__main__':
-    torn_test_case.main()
+    torn_test_case.launch(tornapp.setup_app(torn_settings))
+    unittest.main()

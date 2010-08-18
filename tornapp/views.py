@@ -18,7 +18,7 @@ class AppBaseHandler(RequestHandler):
         return User.view('user/email',key=email).one()
 
     def __init__(self, application, request, **kwargs):
-        if application._settings.db_user:
+        if application.settings['db_user']:
             Document.set_db(application.couchdb)
         RequestHandler.__init__(self, application, request)
         self.output = kwargs.get('output','page')

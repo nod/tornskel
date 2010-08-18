@@ -10,20 +10,16 @@ from tornado.ioloop import IOLoop
 
 from couchdbkit import Document
 
-sys.path.insert(0,os.path.join(os.path.dirname(__file__), ".."))
-import settings
-import tornapp
-
 
 __test__ = False
 
 
 class TornTestCase(unittest.TestCase):
 
-    def setUp(self):
+    def setUp(self,port):
         cj = cookielib.CookieJar()
         self.opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
-        self.baseurl = 'http://localhost:%d'%settings.test_httpd_port
+        self.baseurl = 'http://localhost:%d'%port
 
     def open(self, url, **kwargs):
         url = urlparse.urljoin(self.baseurl,url)
@@ -48,23 +44,22 @@ class DebugServerThread(Thread):
 
     def run(self):
         self.http_server = HTTPServer(self.app)
-        self.http_server.listen(settings.test_httpd_port)
+        self.http_server.listen(self.app.settings['httpd_port'])
         self.loaded.release()
         IOLoop.instance().start()
 
 
-def main():
+def launch(app):
     def _fake_render(handler, template_name, **kwargs):
         handler.write(json.dumps(kwargs))
         handler.finish()
     RequestHandler.render = _fake_render
     
-    thread = DebugServerThread(tornapp.setup_app(settings))
+    thread = DebugServerThread(app)
     thread.start()
-    if settings.db_user:
+    if app.settings['db_user']:
         Document.get_db().flush()
     thread.loaded.acquire()
-    unittest.main()
 
 if __name__ == '__main__':
     print "This file is not a test, and should not be run!"
