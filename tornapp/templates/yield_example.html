@@ -1,0 +1,26 @@
+{% extends base.html %}
+
+{% block style %}
+    .tweet {
+        font-size:14px;
+        border: 1px solid #333; width: 500px; -webkit-border-radius: 6px;
+        margin-bottom:20px;
+        padding: 6px;
+        }
+    .tweet h2 { font-size: 18px; }
+    .created_at { font-size: 80%; background-color: #d0d0d0; }
+{% end %}
+
+{% block content %}
+
+<h1>tweets for #bcstx</h1>
+
+{% for t in tweets %}
+    <div class='tweet'>
+    <h2>{{ t['from_user'] }}</h2>
+    {{ t['text'] }}
+    <span class='created_at'>{{ t['created_at'] }}</span>
+    </div>
+{% end %}
+
+{% end %}

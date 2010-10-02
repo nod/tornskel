@@ -11,9 +11,12 @@ torn_settings = dict(
     static_path = path.join(path.dirname(__file__), "tornapp/static"),
     template_path = path.join(path.dirname(__file__), "tornapp/templates"),
     cookie_secret = "SOMETHING HERE",
+    debug = False,
+    debug_pdb = False,
 )
 try:
     from settings_prod import torn_settings as ts
 except:
     from settings_dev import torn_settings as ts
 torn_settings.update(ts)
+
