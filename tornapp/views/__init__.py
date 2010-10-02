@@ -20,12 +20,11 @@ class YieldExampleHandler(BaseHandler):
         from tornado.escape import json_decode
         uri = "http://search.twitter.com/search.json?q=bcstx"
         yield AsyncHTTPClient().fetch(uri, self.yield_cb)
-        if not self._yielded:
+        if not self._yielded_args:
             self.render('fail.html')
             return
-        print self._yielded
-        tweets = json_decode(self._yielded[0].body)['results']
+        tweets = json_decode(self._yielded_args[0].body)['results']
         self.render('yield_example.html', tweets=tweets)
 
-# this needs to be the last line after all views are instantiated
+# this needs to be the last line after all views are defined
 routes = route.get_routes()

@@ -19,7 +19,7 @@ class BaseHandler(tornado.web.RequestHandler):
         """
         generic callback that enables the yield async syntax
         """
-        self._yielded = args
+        self._yielded_args = args
         self._yielded_kwargs = ka
         try: self._yield_iter.next()
         except StopIteration: pass
