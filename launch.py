@@ -28,8 +28,10 @@ if __name__ == "__main__":
     (options, args) = parser.parse_args()
 
     if options.routes:
+        L = max( len(r) for r,c in route.get_routes() ) # len of longest path
+        fmt_ = "    %%-%ds => %%s" % L
         for r,c in  route.get_routes():
-            print "%s => %s" % (r,c.__name__)
+            print fmt_ % (r,c.__name__)
         sys.exit(0)
     elif options.httpd_port:
         try: settings['httpd_port'] = int(options.httpd_port)
