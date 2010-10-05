@@ -80,9 +80,9 @@ def async_yield(f):
         @async_yield
         def get(self):
             ... stuff ...
-            yield http_fetch(
+            yield AsyncHTTPClient().fetch(
                 'http://blah',
-                callback=self._yield_cb  # always use this
+                callback=self.yield_cb  # always use this
                 )
             print "stuff returned is in", self._yielded
 

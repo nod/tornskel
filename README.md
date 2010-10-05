@@ -115,9 +115,9 @@ An example should help.
         @async_yield
         def get(self):
             ... stuff ...
-            results = yield http_fetch(
+            yield AsyncHTTPClient().fetch(
                 'http://example.com/',
-                callback=self._yield_cb  # always use this
+                callback=self.yield_cb  # always use this
                 )
             print "stuff returned is in", results
 
