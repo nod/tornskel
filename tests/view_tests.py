@@ -10,7 +10,7 @@ import torn_test_case
 class TestViews(torn_test_case.TornTestCase):
 
     def setUp(self):
-        torn_test_case.TornTestCase.setUp(self, torn_settings['httpd_port'])
+        torn_test_case.TornTestCase.setUp(self, torn_settings['port'])
 
     def tearDown(self):
         pass

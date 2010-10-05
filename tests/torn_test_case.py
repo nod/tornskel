@@ -44,7 +44,7 @@ class DebugServerThread(Thread):
 
     def run(self):
         self.http_server = HTTPServer(self.app)
-        self.http_server.listen(self.app.settings['httpd_port'])
+        self.http_server.listen(self.app.settings['port'])
         self.loaded.release()
         IOLoop.instance().start()
 

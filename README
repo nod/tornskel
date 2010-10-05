@@ -1,4 +1,7 @@
-      
+  
+tornskel
+========    
+
      -----------
       _________/
       \_______
@@ -9,19 +12,34 @@
 
 A skeletal template app for a tornado web app.
 
-- LICENSE -
+LICENSE
+-------
 
 This falls under the same license as TornadoWeb,
 the Apache License, Version 2.0
 Get a copy at http://www.apache.org/licenses/LICENSE-2.0.html
 
 
-- GETTING STARTED -
+GETTING STARTED
+---------------
 
-Edit settings.py to your whim, change what you will, then execute launch.py.
+You'll need to create a settings_dev.py or settings_prod.py in order to run
+tornskel.  The easiest way to do this is to copy settings_dev.py.template to
+settings_dev.py.
 
-A Tornado instance will be running at the port specified under httpd_port in
-settings.py.
+Once you have your local settings created, check out the options to launch.py
+as follows.
 
+	tornskel(master)$ ./launch.py -h
+	Usage: launch.py [options]
+
+	Options:
+	  -h, --help            show this help message and exit
+	  -r, --routes          print list of routes
+	  -p PORT, --port=PORT  specify httpd port
+
+If you just execute `./launch.py`, a Tornado instance will be running at the
+port specified under httpd_port in settings.py or settings_dev.py if you
+editted that.
 
 

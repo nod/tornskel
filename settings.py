@@ -2,7 +2,7 @@ from os import path
 
 # tornado specific
 torn_settings = dict(
-    httpd_port = 6488,
+    port = 6488,
     db_name = "",
     db_uri  = "",
     db_user = "",
