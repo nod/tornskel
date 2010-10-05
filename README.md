@@ -69,37 +69,47 @@ An example below will make this clear.
 
 Then, when instantiating your tornado app, you can just pass in
 route.get_routes() where tornado wants the url routes and it will provide the
-urls and handlers list that tornado expects.
+urls and handlers list that tornado expects.  In tornskel, we generate this
+route list as a member of the tornskel.tornapp.views module called `routes`.
+In tornskel/tornapp/app.py, we hand this member to our
+`tornado.web.Application(..)` instantiation call, just like you would with any
+other tornado app.  The difference is that our routes are built at startup
+dynamically instead of being defined statically.
 
-You can also see this list at any time by running `launch.py` with the
-`--routes` option.
+You can see this list at any time by running `launch.py` with the `--routes`
+option.
 
     ./launch.py --routes
         /      => tornapp.views.IndexHandler
         /yield => tornapp.views.YieldExampleHandler
 
-The order of routes appearing here is very important, as the first one
+*Note:* The order of routes appearing here is very important, as the first one
 encountered that matches will be the one that tornado uses.  For this reason,
 when you import the views into your project is how you affect this list.
 
 If you don't want to use the `@route(...)` decorator, just write your views and
-app in the standard tornado way and everything will work the same.
+app in the standard tornado way and pretend the decorator doesn't exist.
+Everything will still work just fine.
 
-Yielded Asynchronous Call
--------------------------
+Yielded Asynchronous Calls
+--------------------------
 
 Part of the reason that tornado is so fast is that performing asynchronous
 calls is very easy to incorporate with tornado's ioloop.  Unfortunately, this
-can lead to a leapfrog approach to your handlers, meaning that state has to be
-saved off to self and performing iterations with multiple callbacks can be a
-bit tricky.  We have a solution for this.
+can lead to a leapfrog approach to your handlers.  Typically, you call
+asynchronously, and give it a function pointer to a callback.  This means
+you need to save the state of the existing function somewhere, usually `self`,
+and then pick that back up again in the callback function.  Performing
+iterations with multiple callbacks can be a bit tricky as you end up hopping
+between callbacks.  We have a solution for this.
 
 If you decorate a request handler method with `@async_yield`, when you make an
-async call, you use python's yield keyword to "yield execution" to that call
+async call, you can use python's `yield` to _yield execution_ to that call
 until it returns.  This is a bit of a break from the standard way of thinking
-about python's yield, but seems to work quite well.
+about python's `yield`, but seems to work quite well.  You get the ease of
+developing typical, serial, blocking code, but with the speed of async calls.
 
-An example will help.
+An example should help.
 
     class MyHandler(BaseHandler):
         @async_yield
@@ -111,7 +121,7 @@ An example will help.
                 )
             print "stuff returned is in", results
 
-Again, you can use tornskel without this feature, it's just there if you'd like
+You can use tornskel without this feature, it's just there if you'd like
 it.  To read more on this, see the souce for tornskel/tornapp/views/viewlib.py
 and pay close attention to the comments in `async_yield(...)`.
 

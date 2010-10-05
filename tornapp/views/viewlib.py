@@ -15,14 +15,48 @@ class BaseHandler(tornado.web.RequestHandler):
     def fail(self, reason=None):
         self.write(json_decode({'status':'fail', 'reason': reason}))
 
+    def _yield_continue(self, response=None):
+        # by sending the response to the generator, we can treat it as a 
+        # yield expression and do stuff like x= yield async_fun(..)
+        # This takes the place of a .next() on the generator.
+        try: self._yield_iter.send(response)
+        except StopIteration: pass
+
     def yield_cb(self, *args, **ka):
         """
-        generic callback that enables the yield async syntax
+        A generic callback for yielded async calls that just captures all args
+        and kwargs then continues execution.
+
+        Notes about retval
+        ------------------
+        If a single value is returned into the callback, that value is returned
+        as the value of a yield expression.
+
+        i.e.: x = yield http.fetch(uri, self.yield_cb)
+
+        The response from the fetch will be returned to x.
+
+        If more than one value is returned, but no kwargs, the retval is the
+        args tuple.
+
+        If there are kwargs but no args, then retval is kwargs.
+
+        If there are both args and kwargs, retval = (args, kwargs).  If none,
+        retval is None.
+
         """
-        self._yielded_args = args
-        self._yielded_kwargs = ka
-        try: self._yield_iter.next()
-        except StopIteration: pass
+        if args and ka:
+            self._yield_continue((args, ka))
+        if ka and not args:
+            self._yield_continue(ka)
+        elif args and not ka:
+            if len(args) == 1:
+                # flatten it
+                self._yield_continue(args[0])
+            else:
+                self._yield_continue(args)
+        else:
+            self._yield_continue()
 
     def _handle_request_exception(self, e):
         tornado.web.RequestHandler._handle_request_exception(self,e)
