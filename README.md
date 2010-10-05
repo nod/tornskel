@@ -4,12 +4,11 @@ tornskel
 
       _________
       \_______
-        _____/    Tornado Skeleton
-        \___
-          _/
+        _____/    tornskel - Tornado Skeleton
+        \___      fully functional skeletal template app for a tornado web app
+          _/ 
           \
 
-A skeletal template app for a tornado web app.
 
 LICENSE
 -------
@@ -76,16 +75,15 @@ You can also see this list at any time by running `launch.py` with the
 `--routes` option.
 
     ./launch.py --routes
-    /      => tornapp.views.IndexHandler
-    /yield => tornapp.views.YieldExampleHandler
+        /      => tornapp.views.IndexHandler
+        /yield => tornapp.views.YieldExampleHandler
 
 The order of routes appearing here is very important, as the first one
 encountered that matches will be the one that tornado uses.  For this reason,
 when you import the views into your project is how you affect this list.
 
 If you don't want to use the `@route(...)` decorator, just write your views and
-app in the standard tornado way and everything will work the same way.
-
+app in the standard tornado way and everything will work the same.
 
 Yielded Asynchronous Call
 -------------------------
@@ -96,7 +94,7 @@ can lead to a leapfrog approach to your handlers, meaning that state has to be
 saved off to self and performing iterations with multiple callbacks can be a
 bit tricky.  We have a solution for this.
 
-If you decorate a request handler method with @async_yield, when you make an
+If you decorate a request handler method with `@async_yield`, when you make an
 async call, you use python's yield keyword to "yield execution" to that call
 until it returns.  This is a bit of a break from the standard way of thinking
 about python's yield, but seems to work quite well.
@@ -114,5 +112,6 @@ An example will help.
             print "stuff returned is in", results
 
 Again, you can use tornskel without this feature, it's just there if you'd like
-it.  To read more on this, see the souce for tornskel/tornapp/views/viewlib.py and pay close attention to the comments for `async_yield(...)`.
+it.  To read more on this, see the souce for tornskel/tornapp/views/viewlib.py
+and pay close attention to the comments in `async_yield(...)`.
 
