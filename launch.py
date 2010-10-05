@@ -14,7 +14,7 @@ def start_instance(settings):
     http_server = tornado.httpserver.HTTPServer(
         tornapp.setup_app(settings)
         )
-    http_server.listen(settings['httpd_port'])
+    http_server.listen(settings['port'])
 
     try: tornado.ioloop.IOLoop.instance().start()
     except KeyboardInterrupt: pass
@@ -24,7 +24,7 @@ if __name__ == "__main__":
     parser = OptionParser()
     parser.add_option("-r", "--routes", action="store_true",
             help="print list of routes")
-    parser.add_option("-p", "--httpd-port", help="specify httpd port")
+    parser.add_option("-p", "--port", help="specify httpd port")
     (options, args) = parser.parse_args()
 
     if options.routes:
