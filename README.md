@@ -39,7 +39,7 @@ as follows.
 
 If you just execute `./launch.py`, a Tornado instance will be running at the
 port specified under port in settings.py or settings_dev.py if you
-editted that.
+edited that.
 
 Additional Notes
 ================
@@ -122,6 +122,6 @@ An example should help.
             print "stuff returned is in", results
 
 You can use tornskel without this feature, it's just there if you'd like
-it.  To read more on this, see the souce for tornskel/tornapp/views/viewlib.py
+it.  To read more on this, see the source for tornskel/tornapp/views/viewlib.py
 and pay close attention to the comments in `async_yield(...)`.
 
