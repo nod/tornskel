@@ -118,7 +118,14 @@ def async_yield(f):
     f = tornado.web.asynchronous(f)
     def yielding_asynchronously(self, *a, **ka):
         self._yield_iter = f(self, *a, **ka)
-        self._yield_iter.next()
+        try:
+            self._yield_iter.next()
+        except AttributeError:
+            # soem codepaths in a handler may not actually execute a yield.
+            # This causes python to not create a generator.  This means a
+            # .next() call throws an AttributeError Exception.  We can just
+            # move past it 
+            pass
     return yielding_asynchronously
 
 
