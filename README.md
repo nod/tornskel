@@ -1,12 +1,12 @@
-  
+
 tornskel
-========    
+========
 
       _________
       \_______
         _____/    tornskel - Tornado Skeleton
         \___      fully functional skeletal template app for a tornado web app
-          _/ 
+          _/
           \
 
 
@@ -24,7 +24,7 @@ You'll need to create a `settings_dev.py` or `settings_prod.py` in order to run
 tornskel.  The easiest way to do this is to copy settings_dev.py.template to
 settings_dev.py.
 
-    cp settings_dev.py.template settings_py
+    cp settings_dev.py.template settings_dev.py
 
 Once you have your local settings created, check out the options to launch.py
 as follows.
