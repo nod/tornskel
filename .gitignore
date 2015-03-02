@@ -8,6 +8,7 @@
 *.swp
 *~.nib
 
+venv
 settings_dev.py
 build
 
