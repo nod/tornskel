@@ -1,22 +1,23 @@
 #!/usr/bin/env python
-import unittest, json, time
+import unittest
+import json
 from threading import Thread, Semaphore
-import sys, os
-import urllib, urllib2, cookielib, urlparse
+import urllib
+import urllib2
+import cookielib
+import urlparse
 
 from tornado.httpserver import HTTPServer
 from tornado.web import RequestHandler
 from tornado.ioloop import IOLoop
-
 from couchdbkit import Document
-
 
 __test__ = False
 
 
 class TornTestCase(unittest.TestCase):
 
-    def setUp(self,port):
+    def setUp(self, port):
         cj = cookielib.CookieJar()
         self.opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cj))
         self.baseurl = 'http://localhost:%d'%port
