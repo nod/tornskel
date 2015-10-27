@@ -1,6 +1,7 @@
 #!/usr/bin/env python
-import unittest, json, time
-import sys, os
+import unittest
+import sys
+import os
 
 sys.path.insert(0,os.path.join(os.path.dirname(__file__), ".."))
 from test_settings import torn_settings
